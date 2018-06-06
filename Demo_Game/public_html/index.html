@@ -1,0 +1,165 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+    <head>
+        <title>JavaScript - Images</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+        <script language="JavaScript" type="text/JavaScript">
+        </script>
+    </head>
+    <body>
+        <button id="btn1">Change pattern</button>
+
+        <div style="margin-left:200px;border:2px solid #c0cc00;width:40px">	
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tr> 
+                    <td align="center"><img name="11" onclick="t()" src="./images/Image6.gif" width="80" height="80"></td>
+                    <td align="center"><img name="12" onclick="t()" src="./images/Image4.gif" width="80" height="80"></td>
+                    <td align="center"><img name="13" onclick="t()" src="./images/Image7.gif" width="80" height="80"></td>
+                </tr>
+                <tr> 
+                    <td align="center"><img name="21" onclick="t()" src="./images/Image3.gif" width="80" height="80"></td>
+                    <td align="center"><img name="22" onclick="t()" src="./images/Image8.gif" width="80" height="80"></td>
+                    <td align="center"><img name="23" onclick="t()" src="./images/Image1.gif" width="80" height="80"></td>
+                </tr>
+                <tr> 
+                    <td align="center"><img name="31" onclick="t()" src="./images/Image5.gif" width="80" height="80"></td>
+                    <td align="center"><img name="32" onclick="t()" src="./images/Image2.gif" width="80" height="80"></td>
+                    <td align="center"><img name="33" onclick="t()" src="./images/Blanc.gif" width="80" height="80"></td>
+                </tr>
+            </table>	
+        </div>
+        <div id="timer" ></div>
+        <script>
+            var find = 0;
+            var blanc = 33;
+            var totalseconds = 0;
+            var final = 0;
+            var hour = 0;
+            var minute = 0;
+            var seconds = 0;
+            
+            document.getElementsByTagName("button")[0].addEventListener("click", function () {
+                for (var i = 0; i < 9; i++) {
+                    //var elem = document.getElementsByTagName("tr")[i];
+                    //elem.parentNode.removeChild(elem);
+                    var sel1 = Math.floor(Math.random() * 9);
+                    var sel2 = Math.floor(Math.random() * 9);
+                    //alert(ran);
+                    var temp1 = document.getElementsByTagName("img")[sel1].src
+                    var temp2 = document.getElementsByTagName("img")[sel2].src
+
+                    document.getElementsByTagName("img")[sel1].src = temp2;
+                    document.getElementsByTagName("img")[sel2].src = temp1;
+
+                }
+                var images = [];
+                for (var k = 0; k < 9; k++) {
+                    var str = document.getElementsByTagName("img")[k].src;
+                    var res = str.split("/");
+                    images.push(res[res.length - 1]);
+                }
+
+                for (var j = 0; j < 9; j++) {
+                    if (images[j] == "Blanc.gif") {
+                        find = j + 1;
+                    }
+                }
+                switch (find) {
+                    case 1:
+                        find = find + 10;
+                        break;
+                    case 2:
+                        find = find + 10;
+                        break;
+                    case 3:
+                        find = find + 10;
+                        break;
+                    case 4:
+                        find = find + 17;
+                        break;
+                    case 5:
+                        find = find + 17;
+                        break;
+                    case 6:
+                        find = find + 17;
+                        break;
+                    case 7:
+                        find = find + 24;
+                        break;
+                    case 8:
+                        find = find + 24;
+                        break;
+                    case 9:
+                        find = find + 24;
+                        break;
+                }
+                blanc = find;
+            });
+
+
+
+            var tabFinal = ["Image1.gif", "Image2.gif", "Image3.gif", "Image4.gif", "Image5.gif", "Image6.gif", "Image7.gif", "Image8.gif", "Blanc.gif"];
+
+
+
+            for (var i = 0; i < 9; i++) {
+                document.getElementsByTagName("img")[i].addEventListener("click", function () {
+
+                    var clic = parseInt(this.name);
+                    var tempClic = document.getElementsByName(clic)[0].src;
+                    var temp = document.getElementsByName(blanc)[0].src;
+
+
+                    if (clic + 1 === blanc || clic - 1 === blanc || clic - 10 === blanc || clic + 10 === blanc) {
+
+                        document.getElementsByName(blanc)[0].src = tempClic;
+                        document.getElementsByName(clic)[0].src = temp;
+
+                        blanc = clic;
+                        //check the winner
+                        var tabCurrente = [];
+
+                        for (var i = 0; i < 9; i++) {
+
+                            var str = document.images[i].src;
+                            var res = str.split("/");
+                            tabCurrente.push(res[res.length - 1]);
+                        }
+                        //alert(tabCurrente);
+
+                        if (JSON.stringify(tabFinal) === JSON.stringify(tabCurrente)) {
+                            final = 1;
+                            alert("congratulations! You finished in "+ hour + " : " + minute + " : " + seconds);
+                            
+                        }
+
+
+                    }
+                });
+            }
+            
+
+            function t() {
+                if(totalseconds == 0){
+                setTimeout(function () {startTimer()}, 1000);
+            }
+            }
+            var totalseconds = 0;
+
+            function startTimer() {
+                ++totalseconds;
+                 hour = Math.floor(totalseconds / 3600);
+                 minute = Math.floor((totalseconds - hour * 3600) / 60);
+                 seconds = totalseconds - (hour * 3600 + minute * 60);
+
+                document.getElementById("timer").innerHTML = hour + " : " + minute + " : " + seconds;
+                if(final == 0){
+                setTimeout(function () {startTimer()}, 1000);
+            }
+            }
+
+
+        </script> 
+
+    </body>
+</html>
